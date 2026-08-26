@@ -1,0 +1,4856 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#070a0f">
+
+<title>Rental Management System — darklight000999</title>
+
+<style>
+
+:root{
+  --bg:#05070b;
+  --bg2:#080c12;
+  --panel:rgba(13,18,27,.82);
+  --panel2:#0d141e;
+  --border:rgba(245,196,81,.20);
+  --border2:rgba(255,255,255,.08);
+
+  --gold:#f5c451;
+  --gold2:#ffdf78;
+
+  --text:#f4f7fb;
+  --muted:#8e99a9;
+
+  --green:#18e889;
+  --red:#ff4757;
+  --orange:#ffb020;
+  --cyan:#19d8ff;
+  --blue:#4f8cff;
+
+  --shadow:0 20px 70px rgba(0,0,0,.42);
+
+  --input:#070c12;
+}
+
+body.light{
+
+  --bg:#eef2f7;
+  --bg2:#f7f9fc;
+  --panel:rgba(255,255,255,.82);
+  --panel2:#ffffff;
+
+  --border:rgba(170,120,15,.25);
+  --border2:rgba(0,0,0,.09);
+
+  --gold:#b37a00;
+  --gold2:#8a5d00;
+
+  --text:#111827;
+  --muted:#667085;
+
+  --shadow:0 15px 45px rgba(15,23,42,.12);
+
+  --input:#f5f7fa;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(245,196,81,.10),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 95% 15%,
+      rgba(25,216,255,.07),
+      transparent 25%
+    ),
+    var(--bg);
+
+  color:var(--text);
+
+  font-family:
+    Inter,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
+
+  min-height:100vh;
+
+  transition:
+    background .35s,
+    color .35s;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.container{
+  width:min(1550px,95%);
+  margin:auto;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+
+  margin:18px 0;
+
+  padding:22px 25px;
+
+  border:1px solid var(--border);
+
+  border-radius:25px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.055),
+      rgba(255,255,255,.012)
+    ),
+    var(--panel);
+
+  backdrop-filter:blur(22px);
+
+  box-shadow:var(--shadow);
+
+  position:relative;
+
+  overflow:hidden;
+}
+
+.header:before{
+
+  content:"";
+
+  position:absolute;
+
+  width:400px;
+  height:400px;
+
+  right:-160px;
+  top:-240px;
+
+  background:rgba(245,196,81,.10);
+
+  filter:blur(80px);
+}
+
+.header-content{
+
+  position:relative;
+
+  z-index:2;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:20px;
+}
+
+.brand{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:15px;
+}
+
+.brand-logo{
+
+  width:62px;
+  height:62px;
+
+  display:grid;
+
+  place-items:center;
+
+  border-radius:18px;
+
+  border:1px solid var(--border);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(245,196,81,.15),
+      rgba(255,255,255,.025)
+    );
+
+  font-size:29px;
+
+  box-shadow:
+    0 0 35px rgba(245,196,81,.10);
+}
+
+.brand h1{
+
+  font-size:clamp(21px,3vw,34px);
+
+  letter-spacing:1px;
+}
+
+.brand h1 span{
+  color:var(--gold);
+}
+
+.brand p{
+
+  color:var(--muted);
+
+  font-size:11px;
+
+  letter-spacing:1.2px;
+
+  margin-top:5px;
+}
+
+.header-actions{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  flex-wrap:wrap;
+
+  justify-content:flex-end;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.btn{
+
+  border:1px solid var(--border2);
+
+  background:var(--panel2);
+
+  color:var(--text);
+
+  border-radius:11px;
+
+  padding:10px 14px;
+
+  transition:.2s;
+
+  white-space:nowrap;
+}
+
+.btn:hover{
+
+  transform:translateY(-2px);
+
+  border-color:var(--gold);
+
+  box-shadow:
+    0 8px 25px rgba(245,196,81,.08);
+}
+
+.btn.gold{
+
+  background:
+    linear-gradient(
+      135deg,
+      #c98f17,
+      #f5c451
+    );
+
+  color:#080a0d;
+
+  border:0;
+
+  font-weight:800;
+}
+
+.btn.green{
+
+  background:rgba(24,232,137,.09);
+
+  border-color:rgba(24,232,137,.3);
+
+  color:var(--green);
+}
+
+.btn.red{
+
+  background:rgba(255,71,87,.08);
+
+  border-color:rgba(255,71,87,.25);
+
+  color:#ff6875;
+}
+
+.btn.blue{
+
+  background:rgba(79,140,255,.09);
+
+  border-color:rgba(79,140,255,.25);
+
+  color:#79a7ff;
+}
+
+.theme-btn{
+
+  width:42px;
+  height:42px;
+
+  padding:0;
+
+  display:grid;
+  place-items:center;
+
+  font-size:18px;
+}
+
+
+/* =====================================================
+   ADMIN STATUS
+===================================================== */
+
+.admin-status{
+
+  display:none;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:8px 12px;
+
+  border-radius:10px;
+
+  background:rgba(24,232,137,.08);
+
+  border:1px solid rgba(24,232,137,.25);
+
+  color:var(--green);
+
+  font-size:12px;
+
+  font-weight:700;
+}
+
+.admin-status.show{
+  display:flex;
+}
+
+.admin-dot{
+
+  width:8px;
+  height:8px;
+
+  border-radius:50%;
+
+  background:var(--green);
+
+  box-shadow:0 0 10px var(--green);
+}
+
+
+/* =====================================================
+   KPI
+===================================================== */
+
+.kpis{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(7,1fr);
+
+  gap:13px;
+
+  margin-bottom:17px;
+}
+
+.kpi{
+
+  min-height:125px;
+
+  padding:18px;
+
+  border-radius:18px;
+
+  border:1px solid var(--border);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.035),
+      rgba(255,255,255,.01)
+    ),
+    var(--panel);
+
+  backdrop-filter:blur(18px);
+
+  box-shadow:var(--shadow);
+
+  position:relative;
+
+  overflow:hidden;
+}
+
+.kpi:after{
+
+  content:"";
+
+  position:absolute;
+
+  width:90px;
+  height:90px;
+
+  right:-28px;
+  top:-28px;
+
+  border-radius:50%;
+
+  background:
+    var(--accent,
+    rgba(245,196,81,.08));
+
+  filter:blur(17px);
+}
+
+.kpi-title{
+
+  color:var(--muted);
+
+  font-size:11px;
+
+  text-transform:uppercase;
+
+  letter-spacing:.7px;
+}
+
+.kpi-value{
+
+  font-size:25px;
+
+  font-weight:850;
+
+  margin-top:13px;
+
+  position:relative;
+
+  z-index:2;
+}
+
+.kpi-sub{
+
+  font-size:10px;
+
+  color:var(--muted);
+
+  margin-top:5px;
+}
+
+
+/* =====================================================
+   GRID / CARDS
+===================================================== */
+
+.grid{
+
+  display:grid;
+
+  grid-template-columns:
+    1.35fr 1fr 1fr;
+
+  gap:15px;
+
+  margin-bottom:17px;
+}
+
+.card{
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.035),
+      rgba(255,255,255,.008)
+    ),
+    var(--panel);
+
+  border:1px solid var(--border2);
+
+  border-radius:20px;
+
+  padding:20px;
+
+  box-shadow:var(--shadow);
+
+  backdrop-filter:blur(18px);
+}
+
+.card h2{
+
+  font-size:15px;
+
+  margin-bottom:17px;
+
+  color:var(--gold2);
+}
+
+.card h2 span{
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  font-weight:400;
+}
+
+
+/* =====================================================
+   DONUT
+===================================================== */
+
+.donut-wrap{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:30px;
+}
+
+.donut{
+
+  width:175px;
+  height:175px;
+
+  border-radius:50%;
+
+  background:
+    conic-gradient(
+      var(--green) 0deg,
+      var(--green)
+      calc(var(--collection) * 1deg),
+      var(--red)
+      calc(var(--collection) * 1deg),
+      var(--red) 360deg
+    );
+
+  display:grid;
+
+  place-items:center;
+
+  position:relative;
+}
+
+.donut:after{
+
+  content:"";
+
+  width:119px;
+  height:119px;
+
+  border-radius:50%;
+
+  background:var(--bg2);
+
+  position:absolute;
+}
+
+.donut-center{
+
+  position:relative;
+
+  z-index:2;
+
+  text-align:center;
+}
+
+.donut-center strong{
+
+  display:block;
+
+  font-size:25px;
+}
+
+.donut-center small{
+
+  color:var(--muted);
+
+  font-size:10px;
+}
+
+.legend{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:13px;
+}
+
+.legend-row{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:9px;
+
+  font-size:13px;
+}
+
+.dot{
+
+  width:10px;
+  height:10px;
+
+  border-radius:50%;
+
+  flex-shrink:0;
+}
+
+.dot.green{background:var(--green)}
+.dot.red{background:var(--red)}
+.dot.gold{background:var(--gold)}
+.dot.cyan{background:var(--cyan)}
+
+
+/* =====================================================
+   BARS
+===================================================== */
+
+.bar-row{
+  margin:14px 0;
+}
+
+.bar-head{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  color:var(--text);
+
+  font-size:12px;
+
+  margin-bottom:7px;
+}
+
+.bar{
+
+  height:8px;
+
+  background:
+    rgba(127,127,127,.15);
+
+  border-radius:20px;
+
+  overflow:hidden;
+}
+
+.bar-fill{
+
+  height:100%;
+
+  width:0;
+
+  border-radius:20px;
+
+  transition:
+    width .6s ease;
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-card{
+
+  margin-bottom:17px;
+
+  padding:0;
+
+  overflow:hidden;
+}
+
+.table-header{
+
+  padding:19px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:15px;
+
+  border-bottom:
+    1px solid var(--border2);
+}
+
+.table-tools{
+
+  display:flex;
+
+  gap:8px;
+
+  flex-wrap:wrap;
+}
+
+.search{
+
+  width:240px;
+
+  background:var(--input);
+
+  border:
+    1px solid var(--border2);
+
+  color:var(--text);
+
+  padding:10px 13px;
+
+  border-radius:10px;
+
+  outline:none;
+}
+
+.search:focus{
+
+  border-color:var(--gold);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(245,196,81,.08);
+}
+
+.table-wrap{
+
+  overflow:auto;
+}
+
+table{
+
+  width:100%;
+
+  border-collapse:collapse;
+
+  min-width:1500px;
+}
+
+thead{
+
+  background:
+    rgba(245,196,81,.07);
+}
+
+th{
+
+  text-align:left;
+
+  padding:13px 12px;
+
+  color:var(--gold2);
+
+  font-size:11px;
+
+  white-space:nowrap;
+}
+
+td{
+
+  padding:9px 12px;
+
+  border-top:
+    1px solid var(--border2);
+
+  font-size:12px;
+
+  white-space:nowrap;
+}
+
+tbody tr{
+
+  transition:.2s;
+}
+
+tbody tr:hover{
+
+  background:
+    rgba(255,255,255,.025);
+}
+
+.room{
+
+  font-weight:850;
+
+  color:var(--gold);
+}
+
+
+/* =====================================================
+   EDIT INPUT
+===================================================== */
+
+.edit-input{
+
+  width:105px;
+
+  background:var(--input);
+
+  border:
+    1px solid var(--border2);
+
+  color:var(--text);
+
+  border-radius:7px;
+
+  padding:7px;
+
+  outline:none;
+}
+
+.edit-input.name{
+  width:150px;
+}
+
+.edit-input:focus{
+
+  border-color:var(--gold);
+}
+
+
+/* =====================================================
+   ADMIN LOCK
+===================================================== */
+
+.locked-field{
+
+  color:var(--muted);
+
+  font-size:11px;
+}
+
+.admin-only{
+  display:none;
+}
+
+body.admin-mode .admin-only{
+  display:table-cell;
+}
+
+body.admin-mode .admin-edit{
+  display:block;
+}
+
+.admin-edit{
+  display:none;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:5px;
+
+  padding:5px 8px;
+
+  border-radius:20px;
+
+  font-size:10px;
+
+  font-weight:750;
+}
+
+.status.paid{
+
+  color:var(--green);
+
+  background:
+    rgba(24,232,137,.08);
+
+  border:
+    1px solid rgba(24,232,137,.2);
+}
+
+.status.partial{
+
+  color:var(--orange);
+
+  background:
+    rgba(255,176,32,.08);
+
+  border:
+    1px solid rgba(255,176,32,.2);
+}
+
+.status.due{
+
+  color:#ff6875;
+
+  background:
+    rgba(255,71,87,.08);
+
+  border:
+    1px solid rgba(255,71,87,.2);
+}
+
+
+/* =====================================================
+   ACTION
+===================================================== */
+
+.action-btn{
+
+  border:0;
+
+  padding:6px 8px;
+
+  border-radius:7px;
+
+  background:
+    rgba(127,127,127,.12);
+
+  color:var(--text);
+
+  margin-right:3px;
+}
+
+.action-btn.delete{
+
+  color:#ff6673;
+}
+
+
+/* =====================================================
+   DUES
+===================================================== */
+
+.dues{
+
+  display:grid;
+
+  gap:9px;
+}
+
+.due-item{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  padding:12px;
+
+  border-radius:12px;
+
+  background:
+    rgba(127,127,127,.055);
+
+  border:
+    1px solid var(--border2);
+}
+
+.due-left{
+
+  display:flex;
+
+  gap:10px;
+
+  align-items:center;
+}
+
+.priority{
+
+  width:29px;
+  height:29px;
+
+  display:grid;
+
+  place-items:center;
+
+  border-radius:9px;
+
+  background:
+    rgba(255,71,87,.12);
+
+  color:#ff6875;
+
+  font-weight:800;
+}
+
+.due-name{
+
+  font-weight:700;
+
+  font-size:13px;
+}
+
+.due-room{
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  margin-top:2px;
+}
+
+.due-money{
+
+  color:#ff6875;
+
+  font-weight:800;
+}
+
+
+/* =====================================================
+   INSIGHTS
+===================================================== */
+
+.insight-box{
+
+  display:grid;
+
+  gap:10px;
+
+  color:var(--text);
+
+  font-size:12px;
+}
+
+.insight-item{
+
+  padding:10px;
+
+  border:
+    1px solid var(--border2);
+
+  border-radius:10px;
+
+  background:
+    rgba(127,127,127,.035);
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal{
+
+  position:fixed;
+
+  inset:0;
+
+  background:
+    rgba(0,0,0,.72);
+
+  backdrop-filter:
+    blur(13px);
+
+  display:none;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:18px;
+
+  z-index:1000;
+}
+
+.modal.show{
+
+  display:flex;
+}
+
+.modal-box{
+
+  width:min(620px,100%);
+
+  max-height:90vh;
+
+  overflow:auto;
+
+  background:
+    var(--panel2);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:23px;
+
+  padding:23px;
+
+  box-shadow:
+    0 35px 100px rgba(0,0,0,.65);
+}
+
+.modal-title{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  margin-bottom:20px;
+}
+
+.close{
+
+  background:none;
+
+  border:0;
+
+  color:var(--text);
+
+  font-size:23px;
+}
+
+.form-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:12px;
+}
+
+.form-group{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:6px;
+}
+
+.form-group.full{
+
+  grid-column:1/-1;
+}
+
+.form-group label{
+
+  color:var(--muted);
+
+  font-size:11px;
+}
+
+.form-group input,
+.form-group select{
+
+  background:var(--input);
+
+  border:
+    1px solid var(--border2);
+
+  color:var(--text);
+
+  border-radius:10px;
+
+  padding:11px;
+
+  outline:none;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+
+  border-color:var(--gold);
+}
+
+.form-actions{
+
+  display:flex;
+
+  justify-content:flex-end;
+
+  gap:9px;
+
+  margin-top:19px;
+}
+
+
+/* =====================================================
+   ADMIN LOGIN
+===================================================== */
+
+.admin-login-icon{
+
+  position:fixed;
+
+  right:17px;
+
+  bottom:17px;
+
+  width:52px;
+  height:52px;
+
+  border-radius:50%;
+
+  border:
+    1px solid var(--border);
+
+  background:
+    linear-gradient(
+      145deg,
+      #17130a,
+      #080b10
+    );
+
+  color:var(--gold);
+
+  display:grid;
+
+  place-items:center;
+
+  font-size:21px;
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.4);
+
+  z-index:900;
+
+  transition:.25s;
+}
+
+body.light .admin-login-icon{
+
+  background:#fff;
+
+  color:var(--gold);
+}
+
+.admin-login-icon:hover{
+
+  transform:
+    translateY(-3px)
+    scale(1.04);
+
+  box-shadow:
+    0 15px 40px
+    rgba(245,196,81,.2);
+}
+
+.login-subtitle{
+
+  color:var(--muted);
+
+  font-size:11px;
+
+  margin-top:5px;
+}
+
+.security-note{
+
+  margin-top:14px;
+
+  padding:10px;
+
+  border-radius:9px;
+
+  background:
+    rgba(255,176,32,.07);
+
+  border:
+    1px solid rgba(255,176,32,.18);
+
+  color:var(--orange);
+
+  font-size:10px;
+
+  line-height:1.5;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer{
+
+  margin:25px 0 20px;
+
+  padding:22px;
+
+  border-top:
+    1px solid var(--border);
+
+  text-align:center;
+
+  color:var(--muted);
+
+  font-size:11px;
+}
+
+.footer strong{
+
+  color:var(--gold);
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
+
+  position:fixed;
+
+  right:18px;
+
+  bottom:18px;
+
+  background:
+    var(--panel2);
+
+  border:
+    1px solid var(--gold);
+
+  color:var(--text);
+
+  padding:12px 16px;
+
+  border-radius:11px;
+
+  transform:
+    translateY(100px);
+
+  opacity:0;
+
+  transition:.3s;
+
+  z-index:2000;
+
+  box-shadow:var(--shadow);
+}
+
+.toast.show{
+
+  transform:translateY(0);
+
+  opacity:1;
+}
+
+
+/* =====================================================
+   PRINT
+===================================================== */
+
+@media print{
+
+  body{
+    background:#fff!important;
+    color:#111!important;
+  }
+
+  .header-actions,
+  .table-tools,
+  .action-btn,
+  .admin-login-icon,
+  .footer,
+  .modal,
+  .admin-status{
+    display:none!important;
+  }
+
+  .header,
+  .card,
+  .table-card,
+  .kpi{
+
+    box-shadow:none!important;
+
+    color:#111!important;
+
+    background:#fff!important;
+
+    border:1px solid #ccc!important;
+  }
+
+  td,
+  th{
+
+    color:#111!important;
+
+    border-color:#ddd!important;
+  }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:1350px){
+
+  .kpis{
+    grid-template-columns:
+      repeat(4,1fr);
+  }
+
+}
+
+@media(max-width:1100px){
+
+  .grid{
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+}
+
+@media(max-width:800px){
+
+  .header-content{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+  }
+
+  .header-actions{
+
+    justify-content:flex-start;
+  }
+
+  .kpis{
+
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .grid{
+
+    grid-template-columns:1fr;
+  }
+
+  .donut-wrap{
+
+    flex-direction:column;
+  }
+
+  .table-header{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+  }
+
+  .search{
+
+    width:100%;
+  }
+
+}
+
+@media(max-width:500px){
+
+  .container{
+    width:96%;
+  }
+
+  .kpis{
+    grid-template-columns:1fr;
+  }
+
+  .brand h1{
+    font-size:21px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-group.full{
+    grid-column:auto;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+  <div class="header-content">
+
+    <div class="brand">
+
+      <div class="brand-logo">
+        🏢
+      </div>
+
+      <div>
+
+        <h1>
+          RENTAL
+          <span>MANAGEMENT</span>
+        </h1>
+
+        <p>
+          RENT • ELECTRICITY • COLLECTION • FINANCIAL CONTROL
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="header-actions">
+
+      <div
+        class="admin-status"
+        id="adminStatus"
+      >
+        <span class="admin-dot"></span>
+        ADMIN MODE
+      </div>
+
+
+      <button
+        class="btn theme-btn"
+        onclick="toggleTheme()"
+        id="themeButton"
+        title="Toggle Theme"
+      >
+        🌙
+      </button>
+
+
+      <button
+        class="btn gold"
+        onclick="openAddModal()"
+      >
+        ＋ नया कमरा
+      </button>
+
+
+      <button
+        class="btn"
+        onclick="exportData()"
+      >
+        ↓ Backup
+      </button>
+
+
+      <button
+        class="btn"
+        onclick="document.getElementById('restoreFile').click()"
+      >
+        ↑ Restore
+      </button>
+
+
+      <button
+        class="btn green"
+        onclick="window.print()"
+      >
+        🖨 रिपोर्ट
+      </button>
+
+
+      <button
+        class="btn red"
+        id="logoutButton"
+        style="display:none"
+        onclick="adminLogout()"
+      >
+        Logout
+      </button>
+
+
+      <input
+        type="file"
+        id="restoreFile"
+        accept=".json"
+        hidden
+        onchange="importData(event)"
+      >
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =====================================================
+     KPI
+===================================================== -->
+
+<section class="kpis">
+
+
+  <div
+    class="kpi"
+    style="--accent:rgba(79,140,255,.13)"
+  >
+
+    <div class="kpi-title">
+      Total Rooms
+    </div>
+
+    <div
+      class="kpi-value"
+      id="totalRooms"
+    >
+      0
+    </div>
+
+    <div class="kpi-sub">
+      कुल कमरे
+    </div>
+
+  </div>
+
+
+  <div
+    class="kpi"
+    style="--accent:rgba(245,196,81,.13)"
+  >
+
+    <div class="kpi-title">
+      Rent Expected
+    </div>
+
+    <div
+      class="kpi-value"
+      id="totalRent"
+    >
+      ₹0
+    </div>
+
+    <div class="kpi-sub">
+      कुल किराया
+    </div>
+
+  </div>
+
+
+  <div
+    class="kpi"
+    style="--accent:rgba(25,216,255,.13)"
+  >
+
+    <div class="kpi-title">
+      Electricity
+    </div>
+
+    <div
+      class="kpi-value"
+      id="totalElectricity"
+    >
+      ₹0
+    </div>
+
+    <div class="kpi-sub">
+      कुल बिजली बिल
+    </div>
+
+  </div>
+
+
+  <div
+    class="kpi"
+    style="--accent:rgba(255,176,32,.13)"
+  >
+
+    <div class="kpi-title">
+      Total Expected
+    </div>
+
+    <div
+      class="kpi-value"
+      id="totalDue"
+    >
+      ₹0
+    </div>
+
+    <div class="kpi-sub">
+      किराया + बिजली
+    </div>
+
+  </div>
+
+
+  <div
+    class="kpi"
+    style="--accent:rgba(24,232,137,.13)"
+  >
+
+    <div class="kpi-title">
+      Collected
+    </div>
+
+    <div
+      class="kpi-value"
+      id="totalCollected"
+    >
+      ₹0
+    </div>
+
+    <div class="kpi-sub">
+      प्राप्त राशि
+    </div>
+
+  </div>
+
+
+  <div
+    class="kpi"
+    style="--accent:rgba(255,71,87,.13)"
+  >
+
+    <div class="kpi-title">
+      Pending
+    </div>
+
+    <div
+      class="kpi-value"
+      id="totalPending"
+    >
+      ₹0
+    </div>
+
+    <div class="kpi-sub">
+      कुल बकाया
+    </div>
+
+  </div>
+
+
+  <div
+    class="kpi"
+    style="--accent:rgba(79,140,255,.13)"
+  >
+
+    <div class="kpi-title">
+      Units
+    </div>
+
+    <div
+      class="kpi-value"
+      id="totalUnits"
+    >
+      0
+    </div>
+
+    <div class="kpi-sub">
+      कुल बिजली यूनिट
+    </div>
+
+  </div>
+
+
+</section>
+
+
+<!-- =====================================================
+     ANALYTICS
+===================================================== -->
+
+<section class="grid">
+
+
+  <!-- COLLECTION -->
+
+  <div class="card">
+
+    <h2>
+      📊 Collection Analytics
+      <span>कलेक्शन विश्लेषण</span>
+    </h2>
+
+
+    <div class="donut-wrap">
+
+      <div
+        class="donut"
+        id="donut"
+        style="--collection:0"
+      >
+
+        <div class="donut-center">
+
+          <strong id="donutPercent">
+            0%
+          </strong>
+
+          <small>
+            Collected
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <div class="legend">
+
+        <div class="legend-row">
+
+          <span class="dot green"></span>
+
+          <div>
+
+            <b>Collected</b>
+
+            <br>
+
+            <span id="legendCollected">
+              ₹0
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="legend-row">
+
+          <span class="dot red"></span>
+
+          <div>
+
+            <b>Pending</b>
+
+            <br>
+
+            <span id="legendPending">
+              ₹0
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="legend-row">
+
+          <span class="dot gold"></span>
+
+          <div>
+
+            <b>Total Expected</b>
+
+            <br>
+
+            <span id="legendExpected">
+              ₹0
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="legend-row">
+
+          <span class="dot cyan"></span>
+
+          <div>
+
+            <b>Electricity</b>
+
+            <br>
+
+            <span id="legendElectricity">
+              ₹0
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ELECTRICITY -->
+
+  <div class="card">
+
+    <h2>
+      ⚡ Electricity Analytics
+    </h2>
+
+
+    <div class="bar-row">
+
+      <div class="bar-head">
+
+        <span>
+          Total Units
+        </span>
+
+        <strong id="analyticsUnits">
+          0
+        </strong>
+
+      </div>
+
+      <div class="bar">
+
+        <div
+          class="bar-fill"
+          id="barUnits"
+          style="background:var(--cyan)"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <div class="bar-row">
+
+      <div class="bar-head">
+
+        <span>
+          Electricity Bill
+        </span>
+
+        <strong id="analyticsElectricity">
+          ₹0
+        </strong>
+
+      </div>
+
+      <div class="bar">
+
+        <div
+          class="bar-fill"
+          id="barElectricity"
+          style="background:var(--gold)"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <div class="bar-row">
+
+      <div class="bar-head">
+
+        <span>
+          Average / Room
+        </span>
+
+        <strong id="avgElectricity">
+          ₹0
+        </strong>
+
+      </div>
+
+      <div class="bar">
+
+        <div
+          class="bar-fill"
+          id="barAvg"
+          style="background:var(--orange)"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- PAYMENT -->
+
+  <div class="card">
+
+    <h2>
+      💳 Payment Status
+    </h2>
+
+
+    <div class="bar-row">
+
+      <div class="bar-head">
+
+        <span>
+          🟢 Fully Paid
+        </span>
+
+        <strong id="fullyPaidCount">
+          0
+        </strong>
+
+      </div>
+
+      <div class="bar">
+
+        <div
+          class="bar-fill"
+          id="barPaid"
+          style="background:var(--green)"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <div class="bar-row">
+
+      <div class="bar-head">
+
+        <span>
+          🟠 Partial
+        </span>
+
+        <strong id="partialCount">
+          0
+        </strong>
+
+      </div>
+
+      <div class="bar">
+
+        <div
+          class="bar-fill"
+          id="barPartial"
+          style="background:var(--orange)"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <div class="bar-row">
+
+      <div class="bar-head">
+
+        <span>
+          🔴 Unpaid
+        </span>
+
+        <strong id="unpaidCount">
+          0
+        </strong>
+
+      </div>
+
+      <div class="bar">
+
+        <div
+          class="bar-fill"
+          id="barUnpaid"
+          style="background:var(--red)"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <div style="
+      margin-top:15px;
+      padding:11px;
+      border:1px solid var(--border);
+      border-radius:11px;
+      color:var(--gold2);
+      font-size:11px;
+    ">
+
+      Collection Rate:
+      <strong id="collectionRate">
+        0%
+      </strong>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     ROOM REGISTER
+===================================================== -->
+
+<section class="card table-card">
+
+
+  <div class="table-header">
+
+    <div>
+
+      <h2 style="
+        margin:0;
+        color:var(--gold2);
+      ">
+
+        🧾 ROOM-WISE RENT &
+        ELECTRICITY REGISTER
+
+      </h2>
+
+      <small style="
+        color:var(--muted);
+      ">
+
+        Complete Rental Financial Database
+
+      </small>
+
+    </div>
+
+
+    <div class="table-tools">
+
+      <input
+        class="search"
+        id="search"
+        placeholder="🔎 Room या नाम खोजें..."
+        oninput="renderTable()"
+      >
+
+
+      <button
+        class="btn"
+        onclick="sortByDue()"
+      >
+        ↕ Sort Due
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>ROOM</th>
+
+          <th>किरायेदार</th>
+
+          <th>RENT ₹</th>
+
+          <th>PREVIOUS UNIT</th>
+
+          <th>CURRENT UNIT</th>
+
+          <th>UNITS</th>
+
+          <th>RATE / UNIT</th>
+
+          <th>ELECTRICITY ₹</th>
+
+          <th>TOTAL DUE ₹</th>
+
+          <th class="admin-only">
+            RECEIVED ₹
+          </th>
+
+          <th class="admin-only">
+            PENDING ₹
+          </th>
+
+          <th>STATUS</th>
+
+          <th>ACTION</th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody id="roomTable"></tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     DUE + INSIGHTS
+===================================================== -->
+
+<section class="grid">
+
+
+  <div
+    class="card"
+    style="grid-column:span 2"
+  >
+
+    <h2>
+
+      🔴 Outstanding Collection
+
+      <span>
+        बकाया वसूली
+      </span>
+
+    </h2>
+
+
+    <div
+      class="dues"
+      id="dueList"
+    ></div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>
+      ⚡ Management Insights
+    </h2>
+
+
+    <div
+      id="insights"
+      class="insight-box"
+    ></div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+  <div style="
+    font-size:21px;
+    margin-bottom:7px;
+  ">
+    ◈
+  </div>
+
+  <div>
+    Product Architect:
+    <strong>
+      darklight000999
+    </strong>
+  </div>
+
+  <div>
+    Rental Management Platform
+  </div>
+
+  <div style="margin-top:6px">
+
+    Copyright © 2026
+    <strong>
+      darklight000999 Technologies
+    </strong>
+
+    • All Rights Reserved.
+
+  </div>
+
+</footer>
+
+
+</div>
+
+
+<!-- =====================================================
+     ADMIN FLOATING BUTTON
+===================================================== -->
+
+<button
+  class="admin-login-icon"
+  onclick="openAdminLogin()"
+  title="Admin Panel"
+>
+  🔐
+</button>
+
+
+<!-- =====================================================
+     ADD ROOM MODAL
+===================================================== -->
+
+<div
+  class="modal"
+  id="addModal"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+
+      <div>
+
+        <h2 style="
+          color:var(--gold2);
+          margin:0;
+        ">
+          ＋ नया कमरा
+        </h2>
+
+        <div class="login-subtitle">
+          Add rental & electricity details
+        </div>
+
+      </div>
+
+
+      <button
+        class="close"
+        onclick="closeAddModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="form-grid">
+
+
+      <div class="form-group">
+
+        <label>
+          Room Number
+        </label>
+
+        <input
+          id="newRoom"
+          type="number"
+          placeholder="108"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Tenant Name
+        </label>
+
+        <input
+          id="newName"
+          placeholder="किरायेदार का नाम"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Monthly Rent ₹
+        </label>
+
+        <input
+          id="newRent"
+          type="number"
+          placeholder="3500"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Previous Meter
+        </label>
+
+        <input
+          id="newPrevious"
+          type="number"
+          placeholder="1000"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Current Meter
+        </label>
+
+        <input
+          id="newCurrent"
+          type="number"
+          placeholder="1050"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Electricity Rate / Unit ₹
+        </label>
+
+        <input
+          id="newRate"
+          type="number"
+          step="0.01"
+          value="8"
+        >
+
+      </div>
+
+
+      <div class="form-group full">
+
+        <label>
+          Received Amount ₹
+        </label>
+
+        <input
+          id="newReceived"
+          type="number"
+          value="0"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="form-actions">
+
+      <button
+        class="btn"
+        onclick="closeAddModal()"
+      >
+        Cancel
+      </button>
+
+
+      <button
+        class="btn gold"
+        onclick="addRoom()"
+      >
+        Add Room
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     ADMIN LOGIN MODAL
+===================================================== -->
+
+<div
+  class="modal"
+  id="adminModal"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+
+      <div>
+
+        <h2 style="
+          color:var(--gold2);
+          margin:0;
+        ">
+          🔐 Administrator Access
+        </h2>
+
+        <div class="login-subtitle">
+          Secure management console
+        </div>
+
+      </div>
+
+
+      <button
+        class="close"
+        onclick="closeAdminLogin()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="form-grid">
+
+
+      <div class="form-group full">
+
+        <label>
+          ADMIN USER ID
+        </label>
+
+        <input
+          id="adminUser"
+          autocomplete="username"
+          placeholder="Enter User ID"
+        >
+
+      </div>
+
+
+      <div class="form-group full">
+
+        <label>
+          ADMIN PASSWORD
+        </label>
+
+        <input
+          id="adminPassword"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Enter Password"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="security-note">
+
+      ⚠️ Demo/local version:
+      credentials are stored in frontend JavaScript.
+      For production use, connect this panel to a secure backend.
+
+    </div>
+
+
+    <div class="form-actions">
+
+      <button
+        class="btn"
+        onclick="closeAdminLogin()"
+      >
+        Cancel
+      </button>
+
+
+      <button
+        class="btn gold"
+        onclick="adminLogin()"
+      >
+        Unlock Admin
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
+<script>
+
+/* =====================================================
+   RENTAL MANAGEMENT SYSTEM
+   darklight000999 Technologies
+===================================================== */
+
+
+/* =====================================================
+   ADMIN CREDENTIALS
+   CHANGE THESE
+===================================================== */
+
+const ADMIN_USER =
+  "admin";
+
+const ADMIN_PASSWORD =
+  "DL@2026";
+
+
+/* =====================================================
+   DEFAULT DATABASE
+===================================================== */
+
+const defaultRooms = [
+
+  {
+    room:"101",
+    name:"राकेश कु०",
+    rent:3500,
+    previous:1000,
+    current:1040,
+    rate:8,
+    received:0
+  },
+
+  {
+    room:"102",
+    name:"आसाम",
+    rent:3500,
+    previous:1100,
+    current:1130,
+    rate:8,
+    received:3000
+  },
+
+  {
+    room:"103",
+    name:"श्रावण कु०",
+    rent:3500,
+    previous:900,
+    current:930,
+    rate:8,
+    received:3740
+  },
+
+  {
+    room:"104",
+    name:"ओमकार कु०",
+    rent:3800,
+    previous:1200,
+    current:1235,
+    rate:8,
+    received:4080
+  },
+
+  {
+    room:"105",
+    name:"शुभम कु०",
+    rent:3500,
+    previous:800,
+    current:850,
+    rate:8,
+    received:0
+  },
+
+  {
+    room:"106",
+    name:"अरुण कु०",
+    rent:3500,
+    previous:950,
+    current:985,
+    rate:8,
+    received:3780
+  },
+
+  {
+    room:"107",
+    name:"दिलखुश ।।",
+    rent:3500,
+    previous:1000,
+    current:1020,
+    rate:8,
+    received:3660
+  },
+
+  {
+    room:"109",
+    name:"मनीष कुमार",
+    rent:4500,
+    previous:1300,
+    current:1350,
+    rate:8,
+    received:1500
+  },
+
+  {
+    room:"110",
+    name:"प्रदिप कु०",
+    rent:5000,
+    previous:1400,
+    current:1430,
+    rate:8,
+    received:5240
+  },
+
+  {
+    room:"111",
+    name:"शयाम कु०",
+    rent:4500,
+    previous:1200,
+    current:1200,
+    rate:8,
+    received:0
+  },
+
+  {
+    room:"112",
+    name:"संजय बुढ़ाना",
+    rent:3500,
+    previous:900,
+    current:940,
+    rate:8,
+    received:3820
+  },
+
+  {
+    room:"113",
+    name:"सतेनदार कु०",
+    rent:3500,
+    previous:1000,
+    current:1030,
+    rate:8,
+    received:3740
+  },
+
+  {
+    room:"114",
+    name:"अंकित सिहं",
+    rent:3500,
+    previous:1100,
+    current:1125,
+    rate:8,
+    received:3700
+  },
+
+  {
+    room:"115",
+    name:"दिपक कु०",
+    rent:3500,
+    previous:1000,
+    current:1020,
+    rate:8,
+    received:3660
+  },
+
+  {
+    room:"116",
+    name:"सुरेन्द्र अहिरवार",
+    rent:4500,
+    previous:1500,
+    current:1540,
+    rate:8,
+    received:4820
+  },
+
+  {
+    room:"117",
+    name:"अमन कु०",
+    rent:4500,
+    previous:1300,
+    current:1320,
+    rate:8,
+    received:4660
+  },
+
+  {
+    room:"118",
+    name:"लक्ष्मी घर मित्रा",
+    rent:4500,
+    previous:1400,
+    current:1425,
+    rate:8,
+    received:4700
+  },
+
+  {
+    room:"119",
+    name:"शिवम् कु०",
+    rent:4500,
+    previous:1200,
+    current:1230,
+    rate:8,
+    received:4740
+  },
+
+  {
+    room:"120",
+    name:"मनोज कु०",
+    rent:3500,
+    previous:1000,
+    current:1040,
+    rate:8,
+    received:3820
+  },
+
+  {
+    room:"121",
+    name:"राहुल कु०",
+    rent:3500,
+    previous:900,
+    current:920,
+    rate:8,
+    received:3660
+  },
+
+  {
+    room:"122",
+    name:"विक्रम कु०",
+    rent:3500,
+    previous:1000,
+    current:1030,
+    rate:8,
+    received:3740
+  },
+
+  {
+    room:"123",
+    name:"नरेन्द्र अहिरवार",
+    rent:3500,
+    previous:1100,
+    current:1135,
+    rate:8,
+    received:3780
+  }
+
+];
+
+
+/* =====================================================
+   LOAD DATABASE
+===================================================== */
+
+let rooms =
+  JSON.parse(
+    localStorage.getItem(
+      "darklightRentalRoomsV2"
+    )
+  ) || defaultRooms;
+
+
+/* =====================================================
+   ADMIN STATE
+===================================================== */
+
+let adminMode =
+  sessionStorage.getItem(
+    "rentalAdminMode"
+  ) === "true";
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+function save(){
+
+  localStorage.setItem(
+    "darklightRentalRoomsV2",
+    JSON.stringify(rooms)
+  );
+
+}
+
+
+/* =====================================================
+   MONEY
+===================================================== */
+
+function money(value){
+
+  return "₹" +
+    Number(value || 0)
+      .toLocaleString("en-IN");
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(str){
+
+  return String(str)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   ROOM CALCULATIONS
+===================================================== */
+
+function getRoomData(room){
+
+  const rent =
+    Math.max(
+      0,
+      Number(room.rent || 0)
+    );
+
+
+  const previous =
+    Math.max(
+      0,
+      Number(room.previous || 0)
+    );
+
+
+  const current =
+    Math.max(
+      previous,
+      Number(room.current || 0)
+    );
+
+
+  const rate =
+    Math.max(
+      0,
+      Number(room.rate || 0)
+    );
+
+
+  const units =
+    Math.max(
+      0,
+      current - previous
+    );
+
+
+  const electricity =
+    units * rate;
+
+
+  const totalDue =
+    rent + electricity;
+
+
+  const received =
+    Math.max(
+      0,
+      Number(room.received || 0)
+    );
+
+
+  const pending =
+    Math.max(
+      0,
+      totalDue - received
+    );
+
+
+  return {
+
+    rent,
+    previous,
+    current,
+    rate,
+    units,
+    electricity,
+    totalDue,
+    received,
+    pending
+
+  };
+
+}
+
+
+/* =====================================================
+   GLOBAL CALCULATION
+===================================================== */
+
+function calculate(){
+
+  let totalRent = 0;
+  let totalElectricity = 0;
+  let totalDue = 0;
+  let totalCollected = 0;
+  let totalUnits = 0;
+
+
+  rooms.forEach(room=>{
+
+    const d =
+      getRoomData(room);
+
+    totalRent += d.rent;
+
+    totalElectricity +=
+      d.electricity;
+
+    totalDue +=
+      d.totalDue;
+
+    totalCollected +=
+      d.received;
+
+    totalUnits +=
+      d.units;
+
+  });
+
+
+  const totalPending =
+    Math.max(
+      0,
+      totalDue-totalCollected
+    );
+
+
+  const collectionRate =
+    totalDue > 0
+      ? totalCollected /
+        totalDue * 100
+      : 0;
+
+
+  const paid =
+    rooms.filter(r=>{
+
+      const d =
+        getRoomData(r);
+
+      return (
+        d.received >=
+        d.totalDue &&
+        d.totalDue > 0
+      );
+
+    }).length;
+
+
+  const partial =
+    rooms.filter(r=>{
+
+      const d =
+        getRoomData(r);
+
+      return (
+        d.received > 0 &&
+        d.received < d.totalDue
+      );
+
+    }).length;
+
+
+  const unpaid =
+    rooms.filter(r=>{
+
+      const d =
+        getRoomData(r);
+
+      return d.received <= 0;
+
+    }).length;
+
+
+  return {
+
+    totalRent,
+    totalElectricity,
+    totalDue,
+    totalCollected,
+    totalPending,
+    totalUnits,
+    collectionRate,
+
+    paid,
+    partial,
+    unpaid
+
+  };
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+function updateDashboard(){
+
+  const c =
+    calculate();
+
+
+  document.getElementById(
+    "totalRooms"
+  ).textContent =
+    rooms.length;
+
+
+  document.getElementById(
+    "totalRent"
+  ).textContent =
+    money(c.totalRent);
+
+
+  document.getElementById(
+    "totalElectricity"
+  ).textContent =
+    money(c.totalElectricity);
+
+
+  document.getElementById(
+    "totalDue"
+  ).textContent =
+    money(c.totalDue);
+
+
+  document.getElementById(
+    "totalCollected"
+  ).textContent =
+    money(c.totalCollected);
+
+
+  document.getElementById(
+    "totalPending"
+  ).textContent =
+    money(c.totalPending);
+
+
+  document.getElementById(
+    "totalUnits"
+  ).textContent =
+    c.totalUnits.toLocaleString("en-IN");
+
+
+  document.getElementById(
+    "collectionRate"
+  ).textContent =
+    c.collectionRate.toFixed(2)
+    + "%";
+
+
+  document.getElementById(
+    "donutPercent"
+  ).textContent =
+    c.collectionRate.toFixed(2)
+    + "%";
+
+
+  document.getElementById(
+    "legendCollected"
+  ).textContent =
+    money(c.totalCollected);
+
+
+  document.getElementById(
+    "legendPending"
+  ).textContent =
+    money(c.totalPending);
+
+
+  document.getElementById(
+    "legendExpected"
+  ).textContent =
+    money(c.totalDue);
+
+
+  document.getElementById(
+    "legendElectricity"
+  ).textContent =
+    money(c.totalElectricity);
+
+
+  document.getElementById(
+    "donut"
+  ).style.setProperty(
+    "--collection",
+    Math.min(
+      360,
+      c.collectionRate * 3.6
+    )
+  );
+
+
+  /* ELECTRICITY */
+
+  document.getElementById(
+    "analyticsUnits"
+  ).textContent =
+    c.totalUnits;
+
+
+  document.getElementById(
+    "analyticsElectricity"
+  ).textContent =
+    money(c.totalElectricity);
+
+
+  const average =
+    rooms.length
+      ? c.totalElectricity /
+        rooms.length
+      : 0;
+
+
+  document.getElementById(
+    "avgElectricity"
+  ).textContent =
+    money(average);
+
+
+  document.getElementById(
+    "barUnits"
+  ).style.width =
+    Math.min(
+      100,
+      c.totalUnits /
+      Math.max(
+        rooms.length * 100,
+        1
+      ) * 100
+    ) + "%";
+
+
+  document.getElementById(
+    "barElectricity"
+  ).style.width =
+    Math.min(
+      100,
+      c.totalElectricity /
+      Math.max(
+        c.totalDue,
+        1
+      ) * 100
+    ) + "%";
+
+
+  document.getElementById(
+    "barAvg"
+  ).style.width =
+    Math.min(
+      100,
+      average /
+      Math.max(
+        c.totalElectricity,
+        1
+      ) * 100
+    ) + "%";
+
+
+  /* PAYMENT */
+
+  const total =
+    Math.max(
+      rooms.length,
+      1
+    );
+
+
+  document.getElementById(
+    "fullyPaidCount"
+  ).textContent =
+    c.paid + " rooms";
+
+
+  document.getElementById(
+    "partialCount"
+  ).textContent =
+    c.partial + " rooms";
+
+
+  document.getElementById(
+    "unpaidCount"
+  ).textContent =
+    c.unpaid + " rooms";
+
+
+  document.getElementById(
+    "barPaid"
+  ).style.width =
+    c.paid / total * 100 + "%";
+
+
+  document.getElementById(
+    "barPartial"
+  ).style.width =
+    c.partial / total * 100 + "%";
+
+
+  document.getElementById(
+    "barUnpaid"
+  ).style.width =
+    c.unpaid / total * 100 + "%";
+
+
+  renderDueList();
+
+  renderInsights();
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function getStatus(room){
+
+  const d =
+    getRoomData(room);
+
+
+  if(
+    d.received >=
+    d.totalDue &&
+    d.totalDue > 0
+  ){
+
+    return {
+
+      cls:"paid",
+
+      text:"🟢 पूरा जमा"
+
+    };
+
+  }
+
+
+  if(d.received > 0){
+
+    return {
+
+      cls:"partial",
+
+      text:"🟠 आंशिक"
+
+    };
+
+  }
+
+
+  return {
+
+    cls:"due",
+
+    text:"🔴 बकाया"
+
+  };
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+function renderTable(){
+
+  const search =
+    document.getElementById(
+      "search"
+    ).value
+      .toLowerCase()
+      .trim();
+
+
+  const filtered =
+    rooms.filter(r=>{
+
+      return (
+
+        String(r.room)
+          .toLowerCase()
+          .includes(search)
+
+        ||
+
+        String(r.name)
+          .toLowerCase()
+          .includes(search)
+
+      );
+
+    });
+
+
+  const tbody =
+    document.getElementById(
+      "roomTable"
+    );
+
+
+  tbody.innerHTML = "";
+
+
+  filtered.forEach(room=>{
+
+    const index =
+      rooms.indexOf(room);
+
+
+    const d =
+      getRoomData(room);
+
+
+    const status =
+      getStatus(room);
+
+
+    const tr =
+      document.createElement("tr");
+
+
+    tr.innerHTML = `
+
+      <td class="room">
+        ${escapeHTML(room.room)}
+      </td>
+
+
+      <td>
+
+        <input
+          class="edit-input name"
+          value="${escapeHTML(room.name)}"
+          onchange="updateRoom(${index},'name',this.value)"
+        >
+
+      </td>
+
+
+      <td>
+
+        <input
+          class="edit-input"
+          type="number"
+          value="${d.rent}"
+          onchange="updateRoom(${index},'rent',this.value)"
+        >
+
+      </td>
+
+
+      <td>
+
+        <input
+          class="edit-input"
+          type="number"
+          value="${d.previous}"
+          onchange="updateRoom(${index},'previous',this.value)"
+        >
+
+      </td>
+
+
+      <td>
+
+        <input
+          class="edit-input"
+          type="number"
+          value="${d.current}"
+          onchange="updateRoom(${index},'current',this.value)"
+        >
+
+      </td>
+
+
+      <td style="
+        color:var(--cyan);
+        font-weight:800;
+      ">
+
+        ${d.units}
+
+      </td>
+
+
+      <td>
+
+        <input
+          class="edit-input"
+          type="number"
+          step="0.01"
+          value="${d.rate}"
+          onchange="updateRoom(${index},'rate',this.value)"
+        >
+
+      </td>
+
+
+      <td style="
+        color:var(--cyan);
+        font-weight:800;
+      ">
+
+        ${money(d.electricity)}
+
+      </td>
+
+
+      <td style="
+        color:var(--gold);
+        font-weight:850;
+      ">
+
+        ${money(d.totalDue)}
+
+      </td>
+
+
+      ${
+        adminMode
+        ?
+
+        `
+
+        <td>
+
+          <input
+            class="edit-input"
+            type="number"
+            value="${d.received}"
+            onchange="updateRoom(${index},'received',this.value)"
+          >
+
+        </td>
+
+
+        <td style="
+          color:${d.pending>0
+            ? '#ff6673'
+            : '#18e889'};
+          font-weight:850;
+        ">
+
+          ${money(d.pending)}
+
+        </td>
+
+        `
+
+        :
+
+        `
+
+        <td class="admin-only">
+
+          🔒 Admin
+
+        </td>
+
+        <td class="admin-only">
+
+          🔒 Locked
+
+        </td>
+
+        `
+      }
+
+
+      <td>
+
+        <span
+          class="status ${status.cls}"
+        >
+
+          ${status.text}
+
+        </span>
+
+      </td>
+
+
+      <td>
+
+        <button
+          class="action-btn delete"
+          onclick="deleteRoom(${index})"
+        >
+          🗑
+        </button>
+
+      </td>
+
+    `;
+
+
+    tbody.appendChild(tr);
+
+  });
+
+
+  /* TOTAL */
+
+  const c =
+    calculate();
+
+
+  const total =
+    document.createElement("tr");
+
+
+  total.className =
+    "total-row";
+
+
+  total.innerHTML = `
+
+    <td>
+      TOTAL
+    </td>
+
+    <td>
+      ${rooms.length} ROOMS
+    </td>
+
+    <td>
+      ${money(c.totalRent)}
+    </td>
+
+    <td>
+      —
+    </td>
+
+    <td>
+      —
+    </td>
+
+    <td>
+      ${c.totalUnits}
+    </td>
+
+    <td>
+      —
+    </td>
+
+    <td>
+      ${money(c.totalElectricity)}
+    </td>
+
+    <td>
+      ${money(c.totalDue)}
+    </td>
+
+    ${
+      adminMode
+      ?
+
+      `
+
+      <td>
+        ${money(c.totalCollected)}
+      </td>
+
+      <td>
+        ${money(c.totalPending)}
+      </td>
+
+      `
+
+      :
+
+      ""
+
+    }
+
+    <td colspan="2">
+
+      ${c.collectionRate.toFixed(2)}%
+      COLLECTION
+
+    </td>
+
+  `;
+
+
+  tbody.appendChild(total);
+
+}
+
+
+/* =====================================================
+   UPDATE ROOM
+===================================================== */
+
+function updateRoom(
+  index,
+  key,
+  value
+){
+
+  if(
+    key === "received" &&
+    !adminMode
+  ){
+
+    showToast(
+      "🔐 Admin access required"
+    );
+
+    renderTable();
+
+    return;
+
+  }
+
+
+  if(key === "name"){
+
+    rooms[index][key] =
+      value;
+
+  }else{
+
+    rooms[index][key] =
+      Math.max(
+        0,
+        Number(value) || 0
+      );
+
+  }
+
+
+  if(
+    key === "current" &&
+    Number(value) <
+    Number(rooms[index].previous)
+  ){
+
+    rooms[index].current =
+      rooms[index].previous;
+
+  }
+
+
+  save();
+
+  updateDashboard();
+
+  renderTable();
+
+  showToast(
+    "Room data updated ✓"
+  );
+
+}
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+function deleteRoom(index){
+
+  const room =
+    rooms[index];
+
+
+  if(
+    !confirm(
+      `Room ${room.room} — ${room.name}
+
+क्या आप यह कमरा हटाना चाहते हैं?`
+    )
+  ){
+
+    return;
+
+  }
+
+
+  rooms.splice(
+    index,
+    1
+  );
+
+
+  save();
+
+  updateDashboard();
+
+  renderTable();
+
+  showToast(
+    "Room deleted"
+  );
+
+}
+
+
+/* =====================================================
+   ADD MODAL
+===================================================== */
+
+function openAddModal(){
+
+  document
+    .getElementById(
+      "addModal"
+    )
+    .classList.add("show");
+
+}
+
+
+function closeAddModal(){
+
+  document
+    .getElementById(
+      "addModal"
+    )
+    .classList.remove("show");
+
+}
+
+
+/* =====================================================
+   ADD ROOM
+===================================================== */
+
+function addRoom(){
+
+  const room =
+    document.getElementById(
+      "newRoom"
+    ).value.trim();
+
+
+  const name =
+    document.getElementById(
+      "newName"
+    ).value.trim();
+
+
+  const rent =
+    Number(
+      document.getElementById(
+        "newRent"
+      ).value
+    );
+
+
+  const previous =
+    Number(
+      document.getElementById(
+        "newPrevious"
+      ).value
+    );
+
+
+  const current =
+    Number(
+      document.getElementById(
+        "newCurrent"
+      ).value
+    );
+
+
+  const rate =
+    Number(
+      document.getElementById(
+        "newRate"
+      ).value
+    );
+
+
+  const received =
+    Number(
+      document.getElementById(
+        "newReceived"
+      ).value
+    );
+
+
+  if(
+    !room ||
+    !name ||
+    rent <= 0
+  ){
+
+    alert(
+      "Room, Name और Rent भरें।"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    rooms.some(
+      r =>
+        String(r.room) ===
+        String(room)
+    )
+  ){
+
+    alert(
+      "यह Room Number पहले से मौजूद है।"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    current < previous
+  ){
+
+    alert(
+      "Current Meter Previous Meter से कम नहीं हो सकता।"
+    );
+
+    return;
+
+  }
+
+
+  rooms.push({
+
+    room,
+
+    name,
+
+    rent,
+
+    previous:
+      Math.max(
+        0,
+        previous
+      ),
+
+    current:
+      Math.max(
+        previous,
+        current
+      ),
+
+    rate:
+      Math.max(
+        0,
+        rate
+      ),
+
+    received:
+      Math.max(
+        0,
+        received
+      )
+
+  });
+
+
+  save();
+
+  updateDashboard();
+
+  renderTable();
+
+  closeAddModal();
+
+
+  [
+    "newRoom",
+    "newName",
+    "newRent",
+    "newPrevious",
+    "newCurrent"
+  ].forEach(id=>{
+
+    document.getElementById(
+      id
+    ).value = "";
+
+  });
+
+
+  document.getElementById(
+    "newRate"
+  ).value = "8";
+
+
+  document.getElementById(
+    "newReceived"
+  ).value = "0";
+
+
+  showToast(
+    `Room ${room} added ✓`
+  );
+
+}
+
+
+/* =====================================================
+   DUE LIST
+===================================================== */
+
+function renderDueList(){
+
+  const list =
+    document.getElementById(
+      "dueList"
+    );
+
+
+  const dues =
+    rooms
+
+      .map((r,i)=>{
+
+        const d =
+          getRoomData(r);
+
+        return {
+
+          ...r,
+
+          index:i,
+
+          pending:d.pending
+
+        };
+
+      })
+
+      .filter(
+        r =>
+          r.pending > 0
+      )
+
+      .sort(
+        (a,b) =>
+          b.pending -
+          a.pending
+      );
+
+
+  list.innerHTML = "";
+
+
+  if(
+    dues.length === 0
+  ){
+
+    list.innerHTML = `
+
+      <div style="
+        padding:25px;
+        text-align:center;
+        color:var(--green);
+      ">
+
+        🎉 सभी किराए और बिजली बिल जमा हैं।
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  dues.forEach(
+    (r,index)=>{
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+
+      item.className =
+        "due-item";
+
+
+      item.innerHTML = `
+
+        <div class="due-left">
+
+          <div class="priority">
+            ${index+1}
+          </div>
+
+          <div>
+
+            <div class="due-name">
+              ${escapeHTML(r.name)}
+            </div>
+
+            <div class="due-room">
+              Room ${escapeHTML(r.room)}
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="due-money">
+          ${money(r.pending)}
+        </div>
+
+      `;
+
+
+      list.appendChild(item);
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   INSIGHTS
+===================================================== */
+
+function renderInsights(){
+
+  const c =
+    calculate();
+
+
+  const box =
+    document.getElementById(
+      "insights"
+    );
+
+
+  const electricityShare =
+    c.totalDue > 0
+      ? c.totalElectricity /
+        c.totalDue * 100
+      : 0;
+
+
+  box.innerHTML = `
+
+    <div class="insight-item">
+
+      🏠
+
+      <strong>
+        ${c.paid}
+      </strong>
+
+      rooms fully paid.
+
+    </div>
+
+
+    <div class="insight-item">
+
+      🟠
+
+      <strong>
+        ${c.partial}
+      </strong>
+
+      rooms partial payment.
+
+    </div>
+
+
+    <div class="insight-item">
+
+      🔴
+
+      <strong>
+        ${c.unpaid}
+      </strong>
+
+      rooms have no payment.
+
+    </div>
+
+
+    <div class="insight-item">
+
+      ⚡
+
+      <strong>
+        ${c.totalUnits}
+      </strong>
+
+      total electricity units.
+
+    </div>
+
+
+    <div class="insight-item">
+
+      💡 Electricity represents
+
+      <strong>
+        ${electricityShare.toFixed(1)}%
+      </strong>
+
+      of total billing.
+
+    </div>
+
+
+    <div
+      class="insight-item"
+      style="
+        color:var(--gold2);
+        border-color:var(--border);
+      "
+    >
+
+      💰 Outstanding:
+
+      <strong>
+        ${money(c.totalPending)}
+      </strong>
+
+    </div>
+
+
+    <div
+      class="insight-item"
+      style="
+        color:var(--green);
+      "
+    >
+
+      📈 Collection efficiency:
+
+      <strong>
+        ${c.collectionRate.toFixed(2)}%
+      </strong>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =====================================================
+   SORT
+===================================================== */
+
+function sortByDue(){
+
+  rooms.sort(
+    (a,b)=>{
+
+      const A =
+        getRoomData(a)
+          .pending;
+
+      const B =
+        getRoomData(b)
+          .pending;
+
+      return B-A;
+
+    }
+  );
+
+
+  save();
+
+  renderTable();
+
+  showToast(
+    "Sorted by outstanding amount"
+  );
+
+}
+
+
+/* =====================================================
+   BACKUP
+===================================================== */
+
+function exportData(){
+
+  const data = {
+
+    app:
+      "darklight000999 Rental Management",
+
+    version:
+      "2.0",
+
+    exportedAt:
+      new Date().toISOString(),
+
+    rooms
+
+  };
+
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          data,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href = url;
+
+  a.download =
+    "rental-management-backup.json";
+
+
+  a.click();
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+
+  showToast(
+    "Backup downloaded ✓"
+  );
+
+}
+
+
+/* =====================================================
+   RESTORE
+===================================================== */
+
+function importData(event){
+
+  const file =
+    event.target.files[0];
+
+
+  if(!file)
+    return;
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    function(e){
+
+      try{
+
+        const data =
+          JSON.parse(
+            e.target.result
+          );
+
+
+        if(
+          !Array.isArray(
+            data.rooms
+          )
+        ){
+
+          throw new Error();
+
+        }
+
+
+        if(
+          !confirm(
+            "Existing data को backup से replace करना है?"
+          )
+        ){
+
+          return;
+
+        }
+
+
+        rooms =
+          data.rooms;
+
+
+        save();
+
+        updateDashboard();
+
+        renderTable();
+
+        showToast(
+          "Backup restored ✓"
+        );
+
+
+      }catch{
+
+        alert(
+          "Invalid backup file."
+        );
+
+      }
+
+    };
+
+
+  reader.readAsText(file);
+
+}
+
+
+/* =====================================================
+   THEME
+===================================================== */
+
+function toggleTheme(){
+
+  document.body.classList.toggle(
+    "light"
+  );
+
+
+  const light =
+    document.body.classList.contains(
+      "light"
+    );
+
+
+  localStorage.setItem(
+    "rentalTheme",
+    light
+      ? "light"
+      : "dark"
+  );
+
+
+  document.getElementById(
+    "themeButton"
+  ).textContent =
+    light
+      ? "☀️"
+      : "🌙";
+
+}
+
+
+/* =====================================================
+   LOAD THEME
+===================================================== */
+
+function loadTheme(){
+
+  const theme =
+    localStorage.getItem(
+      "rentalTheme"
+    );
+
+
+  if(
+    theme === "light"
+  ){
+
+    document.body.classList.add(
+      "light"
+    );
+
+    document.getElementById(
+      "themeButton"
+    ).textContent =
+      "☀️";
+
+  }
+
+}
+
+
+/* =====================================================
+   ADMIN LOGIN
+===================================================== */
+
+function openAdminLogin(){
+
+  if(adminMode){
+
+    showToast(
+      "Admin already unlocked"
+    );
+
+    return;
+
+  }
+
+
+  document
+    .getElementById(
+      "adminModal"
+    )
+    .classList.add(
+      "show"
+    );
+
+
+  setTimeout(
+    ()=>{
+      document
+        .getElementById(
+          "adminUser"
+        )
+        .focus();
+    },
+    100
+  );
+
+}
+
+
+function closeAdminLogin(){
+
+  document
+    .getElementById(
+      "adminModal"
+    )
+    .classList.remove(
+      "show"
+    );
+
+}
+
+
+/* =====================================================
+   ADMIN AUTHENTICATION
+===================================================== */
+
+function adminLogin(){
+
+  const user =
+    document.getElementById(
+      "adminUser"
+    ).value.trim();
+
+
+  const password =
+    document.getElementById(
+      "adminPassword"
+    ).value;
+
+
+  if(
+    user === ADMIN_USER &&
+    password === ADMIN_PASSWORD
+  ){
+
+    adminMode = true;
+
+
+    sessionStorage.setItem(
+      "rentalAdminMode",
+      "true"
+    );
+
+
+    document.body.classList.add(
+      "admin-mode"
+    );
+
+
+    document.getElementById(
+      "adminStatus"
+    ).classList.add(
+      "show"
+    );
+
+
+    document.getElementById(
+      "logoutButton"
+    ).style.display =
+      "block";
+
+
+    closeAdminLogin();
+
+    renderTable();
+
+    showToast(
+      "🔓 Admin access granted"
+    );
+
+
+  }else{
+
+    showToast(
+      "❌ Invalid Admin ID or Password"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   ADMIN LOGOUT
+===================================================== */
+
+function adminLogout(){
+
+  adminMode = false;
+
+
+  sessionStorage.removeItem(
+    "rentalAdminMode"
+  );
+
+
+  document.body.classList.remove(
+    "admin-mode"
+  );
+
+
+  document.getElementById(
+    "adminStatus"
+  ).classList.remove(
+    "show"
+  );
+
+
+  document.getElementById(
+    "logoutButton"
+  ).style.display =
+    "none";
+
+
+  renderTable();
+
+  showToast(
+    "🔒 Admin logged out"
+  );
+
+}
+
+
+/* =====================================================
+   RESTORE ADMIN STATE
+===================================================== */
+
+function restoreAdminState(){
+
+  if(adminMode){
+
+    document.body.classList.add(
+      "admin-mode"
+    );
+
+
+    document.getElementById(
+      "adminStatus"
+    ).classList.add(
+      "show"
+    );
+
+
+    document.getElementById(
+      "logoutButton"
+    ).style.display =
+      "block";
+
+  }
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.textContent =
+    message;
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    window.toastTimer
+  );
+
+
+  window.toastTimer =
+    setTimeout(
+      ()=>{
+        toast.classList.remove(
+          "show"
+        );
+      },
+      2200
+    );
+
+}
+
+
+/* =====================================================
+   KEYBOARD LOGIN
+===================================================== */
+
+document.addEventListener(
+  "keydown",
+  function(e){
+
+    if(
+      e.key === "Enter" &&
+      document
+        .getElementById(
+          "adminModal"
+        )
+        .classList
+        .contains("show")
+    ){
+
+      adminLogin();
+
+    }
+
+
+    if(
+      e.key === "Escape"
+    ){
+
+      closeAdminLogin();
+
+      closeAddModal();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+function init(){
+
+  loadTheme();
+
+  restoreAdminState();
+
+  updateDashboard();
+
+  renderTable();
+
+}
+
+
+init();
+
+</script>
+
+</body>
+</html>
